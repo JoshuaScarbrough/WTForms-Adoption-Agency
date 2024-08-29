@@ -51,9 +51,9 @@ connect_db(app)
 def home_page():
     """ Shows all pets"""
 
-    def __repr__(self):
-        p = self
-        return f"<pet id = {p.id} name = {p.name} species = {p.species} age = {p.age} notes = {p.notes}>"
+    # def __repr__(self):
+    #     p = self
+    #     return f"<pet id = {p.id} name = {p.name} species = {p.species} age = {p.age} notes = {p.notes}>"
 
     # This is querying inside of flask-sqlalchemy. Querying is calling / refrencng something inside of your database in pythonic language. For example pet.query.all() would be similar to SELECT * FROM pet
     # After the call SELECT * FROM pet its assigning the pet to the variable pets. Thats what this query is doing 
@@ -75,7 +75,7 @@ def add_pet():
         db.session.add(new_pet)
         db.session.commit()
         flash(f"{new_pet.name} added.")
-        return redirect(url_for('home.html'))
+        return redirect(url_for('home_page'))
 
     else:
         # re-present form for editing
@@ -86,16 +86,16 @@ def add_pet():
 def edit_pet(pet_id):
     """Edit pet."""
 
-    pet = pet.query.get_or_404(pet_id)
-    form = EditPetForm(obj=pet)
+    pets = pet.query.get_or_404(pet_id)
+    form = EditPetForm(obj = pets)
 
     if form.validate_on_submit():
-        pet.notes = form.notes.data
-        pet.available = form.available.data
-        pet.photo_url = form.photo_url.data
+        pets.notes = form.notes.data
+        pets.available = form.available.data
+        pets.photo_url = form.photo_url.data
         db.session.commit()
         flash(f"{pet.name} updated.")
-        return redirect(url_for('home.html'))
+        return redirect(url_for('home_page'))
 
     else:
         # failed; re-present form for editing
