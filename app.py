@@ -94,12 +94,12 @@ def edit_pet(pet_id):
         pets.available = form.available.data
         pets.photo_url = form.photo_url.data
         db.session.commit()
-        flash(f"{pet.name} updated.")
+        flash(f"{pets.name} updated.")
         return redirect(url_for('home_page'))
 
     else:
         # failed; re-present form for editing
-        return render_template("pet_edit_form.html", form=form, pet=pet)
+        return render_template("pet_edit_form.html", form=form, pets=pets)
     
 
 @app.route("/api/pets/<int:pet_id>", methods=['GET'])
